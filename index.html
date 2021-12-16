@@ -1,0 +1,801 @@
+<html lang="kr">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <script type="text/javascript" src="qrcode.min.js"></script>
+    <style>
+        body {
+            background-color: white;
+            margin:0;
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+        }
+        .hidden {
+            display:none !important;
+        }
+        .full_contents {
+            display: inline-block;
+            width:100%;
+            height:100%;
+            background-color: #222222;
+        }
+        .full_contents .right_panel {
+            width: 520px;
+            height:100%;
+            background-color: #222222;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .full_contents .right_panel #title {
+            color:white;
+            margin-left:100px;
+            margin-top:100px;
+            margin-right:100px;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 36px;
+            line-height: 48px;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+            line-height: 1.5em;
+            max-height: 6em;
+        }
+        .full_contents .right_panel #author_type {
+            margin-left:100px;
+            margin-top:27px;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 20px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .full_contents .right_panel #author{
+            margin-left:100px;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 20px;
+            width: 248px;
+            line-height: 28px;
+            color: rgba(255, 255, 255, 0.7);
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .full_contents .right_panel #description {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 20px;
+            line-height: 28px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top:51px;
+            margin-left:100px;
+            margin-right:100px;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 10;
+            line-height: 1.5em;
+            max-height: 15em;
+        }
+        .full_contents .right_panel #next_nft {
+            position:absolute;
+            bottom: 0;
+            background-color: #222222;
+            width: 520px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .full_contents .right_panel #next_nft_header {
+            margin-top: 40px;
+            margin-left:100px;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 28px;
+            color: #51A0FF;
+        }
+        .full_contents .right_panel #next_nft_body {
+            margin-left: 100px;
+            margin-right:100px;
+            margin-bottom:80px;
+            margin-top:24px;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 20px;
+            line-height: 28px;
+            color: rgba(255, 255, 255, 0.7);
+            display:flex;
+        }
+        .full_contents .right_panel #next_nft_body #next_nft_image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+        }
+        .full_contents .right_panel #next_nft_body #next_nft_contents_container {
+            width:100%;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .full_contents .right_panel #next_nft_body #next_nft_contents_container #next_nft_contents {
+            margin-left:24px;
+        }
+        .full_contents .right_panel #next_nft_body #next_nft_contents_container #next_nft_contents #next_nft_title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 216px;
+        }
+        .full_contents .right_panel #next_nft_body #next_nft_contents_container #next_nft_contents #next_nft_author {
+            width: 216px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .full_contents .media_area {
+            background-color: black;
+            height:100%;
+            position:absolute;
+            top:0px;
+            right:0;
+            overflow: hidden;
+            width: calc(100% - 520px);
+        }
+        .full_contents .media_area #video {
+            background-color: black;
+            height:100%;
+            width:100%;
+        }
+        .fade-in-box {
+            display: inline-block;
+            position: absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background: black;
+            z-index:1000;
+            animation: fadein 3s;
+            -moz-animation: fadein 3s; /* Firefox */
+            -webkit-animation: fadein 3s; /* Safari and Chrome */
+            -o-animation: fadein 3s; /* Opera */
+        }
+        @keyframes fadein {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @-moz-keyframes fadein { /* Firefox */
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @-webkit-keyframes fadein { /* Safari and Chrome */
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @-o-keyframes fadein { /* Opera */
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .fade-out-box {
+            display: inline-block;
+            position: absolute;
+            top:0;
+            left:0;
+            background: black;
+            animation: fadeout 3s;
+            width:100%;
+            height:100%;
+            z-index: 1000;
+            -moz-animation: fadeout 3s; /* Firefox */
+            -webkit-animation: fadeout 3s; /* Safari and Chrome */
+            -o-animation: fadeout 3s; /* Opera */
+            animation-fill-mode: forwards;
+        }
+        @keyframes fadeout {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+        @-moz-keyframes fadeout { /* Firefox */
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+        @-webkit-keyframes fadeout { /* Safari and Chrome */
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+        @-o-keyframes fadeout { /* Opera */
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+        .fullscreen {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            color:white;
+        }
+        .fullscreen > .leftbox {
+            width:50%;
+            height:100%;
+            background-color: #171B1D;
+        }
+        .fullscreen > .leftbox.no_nft {
+            width: 520px;
+        }
+        .fullscreen > .leftbox > .logo {
+            position:absolute;
+            left:100px;
+            top:100px;
+        }
+        .fullscreen > .leftbox > .leftbox-body {
+            display: flex;
+            height:100%;
+            width:100%;
+        }
+        .fullscreen > .leftbox > .leftbox-body > .centered-container {
+            margin: auto;
+            margin-left: 100px;
+        }
+        .fullscreen > .leftbox > .leftbox-body > .centered-container > .login-text{
+            font-style: normal;
+            font-weight: 600;
+            font-size: 48px;
+            line-height: 64px;
+        }
+        .fullscreen > .leftbox > .leftbox-body > .centered-container > .qr-text{
+            font-style: normal;
+            font-weight: normal;
+            margin-top: 24px;
+            font-size: 36px;
+            line-height: 48px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .fullscreen > .leftbox > .leftbox-body > .centered-container > .title-text{
+            font-style: normal;
+            font-weight: bold;
+            font-size: 36px;
+            line-height: 48px;
+        }
+        .fullscreen > .leftbox > .leftbox-body > .centered-container > .body-text{
+            font-style: normal;
+            font-weight: normal;
+            font-size: 20px;
+            line-height: 28px;
+            margin-top: 51px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .qrcode {
+            width: 460px;
+            height: 460px;
+            border: 1px solid white;
+            margin:auto;
+        }
+        .qrcode_text {
+            font-size: 1.3rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .container {
+            margin:auto;
+            display:flex;
+            flex-direction: column;
+        }
+        .overlay_title {
+            position:absolute;
+            top: 0;
+            left: 0;
+            width:100%;
+            height:60px;
+            color: white;
+            display:flex;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .overlay_title_contents {
+            margin:auto;
+            font-size: 2rem;
+        }
+        .overlay_description {
+            position:absolute;
+            bottom: 0;
+            left: 0;
+            width:100%;
+            height:auto;
+            color: white;
+            display:flex;
+            background-color: rgba(0,0,0,0.4);
+            font-size: 1rem;
+        }
+        .overlay_description_contents {
+            margin:auto;
+            padding: 10px 20px;
+        }
+    </style>
+    <script>
+        var klip_request_key = ""
+        var klip_drops_sca = "0xa9a95c5fef43830d5d67156a2582a2e793acb465"
+        var klip_klaytn_address = ""
+        var nfts = []
+        var nft_index = 0
+        var total_nfts = 0
+        var left_slide = 0
+        async function getRequestKey() {
+            var url = "https://a2a-api.klipwallet.com/v2/a2a/prepare"
+            var data = {
+                "bapp": {
+                    "name":"Klip Drops for Web OS"
+                },
+                "type":"auth"
+            }
+            let response = await fetch(url, {
+                method:"POST",
+                headers: {
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            let result = await response.json()
+
+            return result.request_key
+        }
+        function printError(str) {
+            document.getElementById("error_div").innerText = str
+        }
+        async function fetchNFT(index, uri) {
+            return new Promise((resolve, reject)=>{
+                fetch(uri)
+                .then(async (res)=> {
+                    let result = await res.json()
+                    if(index === 0 ) {
+                        result = await patchAnimationUrl(result)
+                    }
+                    nfts[index] = result
+                    resolve()
+                })
+            })
+        }
+
+        function getArtist(nft) {
+            var artist = "Unknown"
+            nft.attributes.map(x=>{
+                if(x.trait_type === '작가명') {
+                    artist = x.value
+                }
+            })
+            return artist
+        }
+
+        function setNextNFTContents() {
+            let next_nft_index = (nft_index+1) % total_nfts
+            let result = nfts[next_nft_index]
+            let artist = getArtist(result)
+            // set next nft body
+            document.getElementById('next_nft_title').innerText = result.name
+            document.getElementById('next_nft_author').innerText = 'by ' + artist
+            document.getElementById('next_nft_image').setAttribute('src', result.image)
+        }
+
+        function startNFT() {
+            printError('')
+            if(nft_index < 0 || nft_index >= nfts.length) {
+                nft_index = 0;
+            }
+            reloadNextNFT(nft_index)
+            let result = nfts[nft_index]
+            let artist = getArtist(result)
+            // document.getElementById('title').innerText = `(${nft_index+1}/${total_nfts})\n${result.name} \nby ${artist}`
+            document.getElementById('title').innerText = result.name
+            document.getElementById('author').innerText = artist
+            document.getElementById('description').innerText = result.description
+
+            setNextNFTContents()
+
+            if(result.animation_url) {
+                if(result.animation_url_resized) {
+                    startVideo(result.animation_url_resized)
+                } else {
+                    startVideo(result.animation_url)
+                }
+            } else {
+                startImage(result.image)
+            }
+        }
+
+        function startImage(url) {
+            var video = document.getElementById('video');
+            var image = document.getElementById('image');
+
+            image.setAttribute('src', url)
+
+            video.classList.add("hidden")
+            image.classList.remove('hidden')
+            window.setTimeout(function(){
+                nft_index++;
+                fadeout()
+            }, 5000)
+        }
+
+        function getResizedFilename(url) {
+            return url.replace('.mp4', '_resized.mp4')
+        }
+
+        async function checkResizedVideo(url) {
+            const resizedUrl = getResizedFilename(url)
+            var returnUrl = resizedUrl
+            try {
+                const result = await fetch(resizedUrl)
+                const blob = await result.blob()
+                if(blob.type !== 'video/mp4') {
+                    throw "not video/mp4"
+                }
+            } catch(err) {
+                returnUrl = url
+            }
+            return returnUrl
+        }
+        async function reloadNextNFT(nft_index) {
+            let next_nft_index = (nft_index+1) % nfts.length;
+            metadata = nfts[next_nft_index]
+            if(metadata.animation_url) {
+                metadata.animation_url_resized = await checkResizedVideo(metadata.animation_url)
+            }
+            nfts[next_nft_index] = metadata
+        }
+
+        async function patchAnimationUrl(metadata) {
+            if(metadata.animation_url) {
+                metadata.animation_url_resized = await checkResizedVideo(metadata.animation_url)
+            }
+            return metadata
+        }
+
+        async function startVideo(url) {
+            var source = document.createElement("source");
+            source.setAttribute('src', url);
+            source.setAttribute('type', 'video/mp4')
+
+            var video = document.getElementById('video');
+            var image = document.getElementById('image');
+            if(video.lastChild)
+                video.removeChild(video.lastChild)
+
+            video.load();
+
+            video.appendChild(source);
+
+            image.classList.add('hidden')
+            video.classList.remove("hidden")
+
+            try {
+                let loadPromise = video.load();
+                if( loadPromise !== undefined) {
+                    loadPromise.catch(error => {
+                        nft_index++;
+                        fadeout()
+                    })
+                }
+
+                let startPlayPromise = video.play()
+                if(startPlayPromise !== undefined) {
+                    startPlayPromise.catch(error => {
+                        if(error.name === "NotAllowedError") {
+                            console.log("failed to autoplay!")
+                            video.setAttribute('controls', 'true')
+                        } else {
+                            // Handle a load or playback error
+                            console.log('failed to play', error)
+                            printError('failed to play' + error)
+                            nft_index++;
+                            fadeout()
+                        }
+                    })
+                } else {
+                    nft_index++;
+                    fadeout()
+                }
+
+            } catch(err) {
+                printError('error' +err)
+            }
+        }
+
+        function getKlipDropsNFTsNext(start_idx, next_cursor) {
+            var sca = klip_drops_sca
+            var url = `https://a2a-api.klipwallet.com/v2/a2a/cards?sca=${sca}&eoa=${klip_klaytn_address}&cursor=${next_cursor}`
+            fetch(url, {
+                method:"GET",
+                headers: {
+                    "Content-Type":"application/json"
+                },
+            }).then(async (res)=> {
+                let result = await res.json()
+                total_nfts += result.cards.length;
+                await Promise.all(result.cards.map((x,i)=>{
+                    return fetchNFT(start_idx + i, x.card_uri)
+                }))
+                if(result.next_cursor) {
+                    getKlipDropsNFTsNext(total_nfts, result.next_cursor)
+                } else {
+                    startNFT()
+                    console.log('nfts', nfts)
+                }
+            }).catch(err=> {
+                console.log('getKlipDropsNFTs error', err)
+                printError('getKlipDropsNFTs error' + err)
+            })
+
+        }
+
+        function getKlipDropsNFTs() {
+            var sca = klip_drops_sca
+            var url = `https://a2a-api.klipwallet.com/v2/a2a/cards?sca=${sca}&eoa=${klip_klaytn_address}`
+
+            document.getElementById('qrcode_container').classList.add('hidden')
+            fetch(url, {
+                method:"GET",
+                headers: {
+                    "Content-Type":"application/json"
+                },
+            }).then(async (res)=> {
+                let result = await res.json()
+                if(result.cards === null) {
+                    document.getElementById('full_contents').classList.add('hidden')
+                    document.getElementById('qrcode_container').classList.add('hidden')
+                    genklipDropsURLQRCode()
+                    document.getElementById('no_nft_contents').classList.remove('hidden')
+                } else {
+                    total_nfts = result.cards.length;
+                    await Promise.all(result.cards.map((x,i)=>{
+                        return fetchNFT(i, x.card_uri)
+                    }))
+                    startNFT()
+                }
+            }).catch(err=> {
+                console.log('getKlipDropsNFTs error', err)
+                printError('getKlipDropsNFTs error' + err)
+            })
+        }
+
+        function getResponse() {
+            var url = "https://a2a-api.klipwallet.com/v2/a2a/result?request_key="+klip_request_key
+
+            fetch(url, {
+                method:"GET",
+                headers: {
+                    "Content-Type":"application/json"
+                },
+            }).then(async (res)=> {
+                let result = await res.json()
+                if(result.status === "completed") {
+                    klip_klaytn_address = result.result.klaytn_address
+                    console.log('address', klip_klaytn_address)
+                    document.getElementById('full_contents').classList.remove('hidden')
+                    document.getElementById('qrcode_container').classList.add('hidden')
+                    getKlipDropsNFTs()
+                } else {
+                    window.setTimeout(getResponse, 1000)
+                }
+            }).catch(err=> {
+                console.log('getResponse error', err)
+                regenQRCode()
+            })
+        }
+
+        async function regenQRCode() {
+            var request_key = await getRequestKey()
+            // var qr_container = document.getElementById('qrcode_container')
+            var qr = document.getElementById('qrcode')
+            klip_request_key = request_key
+            var request_url = "https://klipwallet.com/?target=/a2a?request_key="+request_key
+
+            var qrcode = new QRCode(qr, {
+                width: 460, height:460
+            })
+            qrcode.makeCode(request_url)
+
+            window.setTimeout(getResponse, 2000)
+        }
+
+        async function genklipDropsURLQRCode() {
+            var qr = document.getElementById('klipdrops_qrcode')
+            var request_url = "https://klipdrops.com"
+
+            var qrcode = new QRCode(qr, {
+                width: 460, height:460
+            })
+            qrcode.makeCode(request_url)
+        }
+
+        async function onload(start) {
+            try {
+                if(klip_klaytn_address === "") {
+                    regenQRCode()
+                } else {
+                    document.getElementById('full_contents').classList.remove('hidden')
+                    document.getElementById('qrcode_container').classList.add('hidden')
+                    getKlipDropsNFTs()
+                }
+            } catch(err) {
+                printError("인터넷 연결이 필요합니다. 인터넷에 연결되었는지 확인하세요.")
+            }
+
+            const video = document.getElementById('video')
+            video.addEventListener('ended', (event)=> {
+                if(nft_index < nfts.length-1) {
+                    nft_index++
+                } else {
+                    nft_index = 0
+                }
+                fadeout()
+                // slide()
+                // startNFT()
+            })
+            
+        }
+
+        function slide() {
+            const container = document.getElementById('full_contents')
+            const title = document.getElementById('overlay_title')
+            const description = document.getElementById('overlay_description')
+
+            const duration = 2000
+            left_slide += window.innerWidth / duration * 50
+            title.style.marginLeft =
+                description.style.marginLeft = (-1 * left_slide)
+            container.style.marginLeft = (-1 * left_slide*2)
+            if(left_slide - 300 >= window.innerWidth) {
+                title.style.marginLeft =
+                    description.style.marginLeft =
+                        container.style.marginLeft = 0;
+                left_slide = 0;
+                startNFT()
+            } else {
+                window.setTimeout(slide, 50)
+            }
+        }
+
+        function fadeout() {
+            document.getElementById('fade-in-box').classList.remove('hidden')
+            window.setTimeout(function() {
+                startNFT()
+                document.getElementById('fade-in-box').classList.add('hidden')
+            }, 3000)
+        }
+    </script>
+</head>
+
+<body onload="onload(30)">
+    <div class='fade-in-box hidden' id='fade-in-box'></div>
+    <div class='fullscreen hidden' id='no_nft_contents'>
+        <div class='leftbox no_nft'>
+            <div class='logo'>
+                <svg width="160" height="30" viewBox="0 0 160 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_3486_59771)">
+                    <path d="M31.97 6.70999H36.18V23.44H31.97V6.70999Z" fill="white"/>
+                    <path d="M34.06 5.06C35.4573 5.06 36.59 3.92728 36.59 2.53C36.59 1.13272 35.4573 0 34.06 0C32.6627 0 31.53 1.13272 31.53 2.53C31.53 3.92728 32.6627 5.06 34.06 5.06Z" fill="white"/>
+                    <path d="M7.83 11.26L17.75 0.140015H12.65L4.27 9.63001V0.140015H0V23.44H4.27V13.27L12.88 23.44H17.98L7.83 11.26Z" fill="white"/>
+                    <path d="M24.99 17.6V0.149994H20.81V18.23C20.81 23.02 23.14 23.61 25.46 23.61C25.77 23.61 27.19 23.51 27.19 23.51V19.89H26.32C25.23 19.9 24.99 19.44 24.99 17.6Z" fill="white"/>
+                    <path d="M51.04 6.32002C49.9713 6.25798 48.9052 6.47968 47.9498 6.96264C46.9944 7.4456 46.1837 8.17264 45.6 9.07002H45.54C45.5797 8.68797 45.5997 8.30412 45.6 7.92002V6.71002H41.76V30H45.97V23C45.9723 22.5191 45.9489 22.0384 45.9 21.56H45.97C46.5336 22.3005 47.266 22.8955 48.1062 23.2956C48.9463 23.6957 49.8699 23.8892 50.8 23.86C55.24 23.86 58.52 20.41 58.52 15.1C58.52 9.79002 55.61 6.32002 51.04 6.32002ZM50.04 20.32C47.26 20.32 45.83 17.76 45.83 15.16C45.83 11.46 47.89 9.88001 50.08 9.88001C52.56 9.88001 54.28 11.95 54.28 15.13C54.28 18.31 52.36 20.33 50.04 20.33V20.32Z" fill="white"/>
+                    <path d="M73.79 0.149994H67.68V23.44H73.77C81.03 23.44 85.77 19.11 85.77 11.76C85.77 4.40999 81.05 0.149994 73.79 0.149994ZM73.56 19.02H71.97V4.56999H73.56C78.27 4.56999 81.38 6.56999 81.38 11.76C81.38 16.95 78.33 19.02 73.56 19.02Z" fill="white"/>
+                    <path d="M110.87 6.32001C105.73 6.32001 101.59 9.96001 101.59 15.08C101.59 20.2 105.73 23.84 110.9 23.84C116.07 23.84 120.18 20.23 120.18 15.08C120.18 9.93001 116.03 6.32001 110.87 6.32001ZM110.87 20.32C109.829 20.3639 108.799 20.0953 107.911 19.5486C107.024 19.0019 106.321 18.2022 105.892 17.2525C105.464 16.3028 105.329 15.2465 105.506 14.2195C105.682 13.1926 106.162 12.242 106.884 11.4902C107.605 10.7384 108.535 10.2197 109.554 10.001C110.573 9.78221 111.634 9.87337 112.6 10.2627C113.567 10.6521 114.395 11.3218 114.978 12.1856C115.56 13.0495 115.871 14.068 115.87 15.11C115.894 15.7791 115.784 16.4462 115.545 17.0718C115.306 17.6973 114.945 18.2686 114.481 18.7517C114.018 19.2348 113.462 19.6199 112.847 19.8842C112.232 20.1484 111.57 20.2864 110.9 20.29L110.87 20.32Z" fill="white"/>
+                    <path d="M132.4 6.32002C131.331 6.25798 130.265 6.47968 129.31 6.96264C128.354 7.4456 127.544 8.17264 126.96 9.07002H126.9C126.94 8.68797 126.96 8.30412 126.96 7.92002V6.71002H123.12V30H127.33V23C127.332 22.5191 127.309 22.0384 127.26 21.56H127.33C127.894 22.3005 128.626 22.8955 129.466 23.2956C130.306 23.6957 131.23 23.8892 132.16 23.86C136.6 23.86 139.88 20.41 139.88 15.1C139.88 9.79002 136.97 6.32002 132.4 6.32002ZM131.4 20.32C128.62 20.32 127.19 17.76 127.19 15.16C127.19 11.46 129.25 9.88001 131.43 9.88001C133.92 9.88001 135.64 11.95 135.64 15.13C135.64 18.31 133.68 20.33 131.4 20.33V20.32Z" fill="white"/>
+                    <path d="M146.75 11.39C146.75 10.39 147.81 9.87999 148.9 9.87999C150.406 9.86367 151.87 10.3729 153.04 11.32L154.6 8.24C153.018 6.91289 150.992 6.23404 148.93 6.33999C145.29 6.33999 142.47 8.14 142.47 11.26C142.47 16.64 150.69 16.31 150.69 18.8C150.69 19.8 149.69 20.31 148.47 20.31C146.762 20.2704 145.126 19.6172 143.86 18.47L141.94 21.39C143.73 23.0221 146.078 23.906 148.5 23.86C152.5 23.86 154.96 21.62 154.96 18.86C154.96 13.39 146.75 13.73 146.75 11.39Z" fill="white"/>
+                    <path d="M99.28 6.76002C95.84 6.76002 94.6 8.26002 94.08 8.86002L94.15 6.67001H89.95L89.88 23.47H94.08V16.47C94.0927 15.674 94.2138 14.8834 94.44 14.12C94.6826 13.1579 95.2235 12.2973 95.9851 11.6614C96.7467 11.0256 97.6901 10.647 98.68 10.58C99.27 10.49 100.4 10.44 100.4 10.44V6.79002C100.4 6.79002 99.68 6.76002 99.28 6.76002Z" fill="white"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_3486_59771">
+                    <rect width="160" height="30" fill="white"/>
+                    </clipPath>
+                    </defs>
+                    </svg>
+            </div>
+            <div class='leftbox-body'>
+                <div class='centered-container'>
+                    <div class='title-text'>보유한 작품이<br/> 없습니다.</div>
+                    <div class='body-text'>Klip Drops에서 내 취향을 저격하는<br/>디지털 아트, 컬렉터블스를<br/>수집해 보세요.<br/><br/>오른쪽 QR코드를 스캔하면<br/>Klip Drops로 이동할 수 있습니다.</div>
+                </div>
+            </div>
+        </div>
+        <div style='margin:auto'>
+            <div id='klipdrops_qrcode' class='qrcode'></div>
+        </div>
+    </div>
+    <div class='fullscreen' id='qrcode_container'>
+        <div class='leftbox'>
+            <div class='logo'>
+                <svg width="160" height="30" viewBox="0 0 160 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_3486_59771)">
+                    <path d="M31.97 6.70999H36.18V23.44H31.97V6.70999Z" fill="white"/>
+                    <path d="M34.06 5.06C35.4573 5.06 36.59 3.92728 36.59 2.53C36.59 1.13272 35.4573 0 34.06 0C32.6627 0 31.53 1.13272 31.53 2.53C31.53 3.92728 32.6627 5.06 34.06 5.06Z" fill="white"/>
+                    <path d="M7.83 11.26L17.75 0.140015H12.65L4.27 9.63001V0.140015H0V23.44H4.27V13.27L12.88 23.44H17.98L7.83 11.26Z" fill="white"/>
+                    <path d="M24.99 17.6V0.149994H20.81V18.23C20.81 23.02 23.14 23.61 25.46 23.61C25.77 23.61 27.19 23.51 27.19 23.51V19.89H26.32C25.23 19.9 24.99 19.44 24.99 17.6Z" fill="white"/>
+                    <path d="M51.04 6.32002C49.9713 6.25798 48.9052 6.47968 47.9498 6.96264C46.9944 7.4456 46.1837 8.17264 45.6 9.07002H45.54C45.5797 8.68797 45.5997 8.30412 45.6 7.92002V6.71002H41.76V30H45.97V23C45.9723 22.5191 45.9489 22.0384 45.9 21.56H45.97C46.5336 22.3005 47.266 22.8955 48.1062 23.2956C48.9463 23.6957 49.8699 23.8892 50.8 23.86C55.24 23.86 58.52 20.41 58.52 15.1C58.52 9.79002 55.61 6.32002 51.04 6.32002ZM50.04 20.32C47.26 20.32 45.83 17.76 45.83 15.16C45.83 11.46 47.89 9.88001 50.08 9.88001C52.56 9.88001 54.28 11.95 54.28 15.13C54.28 18.31 52.36 20.33 50.04 20.33V20.32Z" fill="white"/>
+                    <path d="M73.79 0.149994H67.68V23.44H73.77C81.03 23.44 85.77 19.11 85.77 11.76C85.77 4.40999 81.05 0.149994 73.79 0.149994ZM73.56 19.02H71.97V4.56999H73.56C78.27 4.56999 81.38 6.56999 81.38 11.76C81.38 16.95 78.33 19.02 73.56 19.02Z" fill="white"/>
+                    <path d="M110.87 6.32001C105.73 6.32001 101.59 9.96001 101.59 15.08C101.59 20.2 105.73 23.84 110.9 23.84C116.07 23.84 120.18 20.23 120.18 15.08C120.18 9.93001 116.03 6.32001 110.87 6.32001ZM110.87 20.32C109.829 20.3639 108.799 20.0953 107.911 19.5486C107.024 19.0019 106.321 18.2022 105.892 17.2525C105.464 16.3028 105.329 15.2465 105.506 14.2195C105.682 13.1926 106.162 12.242 106.884 11.4902C107.605 10.7384 108.535 10.2197 109.554 10.001C110.573 9.78221 111.634 9.87337 112.6 10.2627C113.567 10.6521 114.395 11.3218 114.978 12.1856C115.56 13.0495 115.871 14.068 115.87 15.11C115.894 15.7791 115.784 16.4462 115.545 17.0718C115.306 17.6973 114.945 18.2686 114.481 18.7517C114.018 19.2348 113.462 19.6199 112.847 19.8842C112.232 20.1484 111.57 20.2864 110.9 20.29L110.87 20.32Z" fill="white"/>
+                    <path d="M132.4 6.32002C131.331 6.25798 130.265 6.47968 129.31 6.96264C128.354 7.4456 127.544 8.17264 126.96 9.07002H126.9C126.94 8.68797 126.96 8.30412 126.96 7.92002V6.71002H123.12V30H127.33V23C127.332 22.5191 127.309 22.0384 127.26 21.56H127.33C127.894 22.3005 128.626 22.8955 129.466 23.2956C130.306 23.6957 131.23 23.8892 132.16 23.86C136.6 23.86 139.88 20.41 139.88 15.1C139.88 9.79002 136.97 6.32002 132.4 6.32002ZM131.4 20.32C128.62 20.32 127.19 17.76 127.19 15.16C127.19 11.46 129.25 9.88001 131.43 9.88001C133.92 9.88001 135.64 11.95 135.64 15.13C135.64 18.31 133.68 20.33 131.4 20.33V20.32Z" fill="white"/>
+                    <path d="M146.75 11.39C146.75 10.39 147.81 9.87999 148.9 9.87999C150.406 9.86367 151.87 10.3729 153.04 11.32L154.6 8.24C153.018 6.91289 150.992 6.23404 148.93 6.33999C145.29 6.33999 142.47 8.14 142.47 11.26C142.47 16.64 150.69 16.31 150.69 18.8C150.69 19.8 149.69 20.31 148.47 20.31C146.762 20.2704 145.126 19.6172 143.86 18.47L141.94 21.39C143.73 23.0221 146.078 23.906 148.5 23.86C152.5 23.86 154.96 21.62 154.96 18.86C154.96 13.39 146.75 13.73 146.75 11.39Z" fill="white"/>
+                    <path d="M99.28 6.76002C95.84 6.76002 94.6 8.26002 94.08 8.86002L94.15 6.67001H89.95L89.88 23.47H94.08V16.47C94.0927 15.674 94.2138 14.8834 94.44 14.12C94.6826 13.1579 95.2235 12.2973 95.9851 11.6614C96.7467 11.0256 97.6901 10.647 98.68 10.58C99.27 10.49 100.4 10.44 100.4 10.44V6.79002C100.4 6.79002 99.68 6.76002 99.28 6.76002Z" fill="white"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_3486_59771">
+                    <rect width="160" height="30" fill="white"/>
+                    </clipPath>
+                    </defs>
+                    </svg>
+            </div>
+            <div class='leftbox-body'>
+                <div class='centered-container'>
+                    <div class='login-text'>Klip Drops 로그인</div>
+                    <div class='qr-text'>휴대폰에서 QR코드를 스캔하여<br/>로그인해 주세요.</div>
+                </div>
+            </div>
+        </div>
+        <div style='width:50%;height:100%;display:flex'>
+            <div id='qrcode' class='qrcode'></div>
+        </div>
+    </div>
+    <div id='full_contents' class='full_contents hidden'>
+        <div class='right_panel'>
+            <div id="title"></div>
+            <div id="author_type">크리에이터/브랜드</div>
+            <div id="author"></div>
+            <div id="description"></div>
+            <div id="padding"></div>
+            <div id='next_nft'>
+                <div id='next_nft_header'>다음 감상할 작품</div>
+                <div id='next_nft_body'>
+                    <div>
+                        <img id='next_nft_image' src=""/>
+                    </div>
+                    <div id='next_nft_contents_container'>
+                        <div id='next_nft_contents'>
+                            <div id='next_nft_title'></div>
+                            <div id='next_nft_author'></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='media_area'>
+            <video id="video" class='hidden'></video>
+            <img class='hidden' id='image' width='100%' src=""/>
+        </div>
+    </div>
+    <div id='error_div' style="position:absolute;top:50px;width:100%;text-align:center;font-size:50px;color:red"></div>
+</body>
+</html>
+
