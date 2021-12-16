@@ -348,7 +348,7 @@
     <script>
         var klip_request_key = ""
         var klip_drops_sca = "0xa9a95c5fef43830d5d67156a2582a2e793acb465"
-        var klip_klaytn_address = ""
+        var klip_klaytn_address = "0x7074ece83d6419951046480f4ab65edc01c34fef"
         var nfts = []
         var nft_index = 0
         var total_nfts = 0
@@ -457,7 +457,7 @@
             const resizedUrl = getResizedFilename(url)
             var returnUrl = resizedUrl
             try {
-                const result = await fetch(resizedUrl)
+                const result = await fetch(resizedUrl, {method:'HEAD'})
                 const blob = await result.blob()
                 if(blob.type !== 'video/mp4') {
                     throw "not video/mp4"
